@@ -260,17 +260,40 @@ TPersona obtenerFinalDeTPersonasLDE(TPersonasLDE personas){
 ///////////////////////////////////////////////////////////////////////////
 
 void eliminarPersonaConNombreTPersonasLDE(TPersonasLDE &personas, const char nombre[100]){
-    
+    listaDpersonas nodo = personas->inicio;
+    while (nodo != NULL && strcmp(nombreTPersona(nodo->persona), nombre) != 0){
+        nodo = nodo->sig;
+    }
+    if (nodo == NULL) return;
+
+    if (nodo->ant != NULL) nodo->ant->sig = nodo->sig;
+    else personas->inicio = nodo->sig;
+
+    if (nodo->sig != NULL) nodo->sig->ant = nodo->ant;
+    else personas->fin = nodo->ant;
+
+    personas->cant--;
+    liberarTPersona(nodo->persona);
+    delete nodo;
 }
 
 bool estaPersonaConNombreEnTPersonasLDE(TPersonasLDE personas, const char nombre[100]){
+    listaDpersonas nodo = personas->inicio;
+    while (nodo != NULL){
+        if (strcmp(nombreTPersona(nodo->persona), nombre) == 0) return true;
+        nodo = nodo->sig;
+    }
     return false;
 }
 
 TPersona obtenerPersonaConNombreTPersonasLDE(TPersonasLDE personas, const char nombre[100]){
-    return NULL;
+    listaDpersonas nodo = personas->inicio;
+    while (nodo != NULL && strcmp(nombreTPersona(nodo->persona), nombre) != 0){
+        nodo = nodo->sig;
+    }
+    if (nodo == NULL) return NULL;
+    return nodo->persona;
 }
-
 ///////////////////////////////////////////////////////////////////////////
 /////////////  FIN NUEVAS FUNCIONES  //////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
