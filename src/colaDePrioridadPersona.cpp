@@ -2,12 +2,28 @@
 #include "../include/utils.h"
 #include "../include/evento.h"
 
-struct rep_colaDePrioridadPersona {
+struct NodoHeap {
+  TPersona persona;
+  NodoHeap* der;
+  NodoHeap* izq;
+};
 
+struct rep_colaDePrioridadPersona {
+  NodoHeap* arb;
+  nat* prioridad;
+  nat cant;
+  nat max;
 };
 
 TColaDePrioridadPersona crearCP(nat N) {
-  return NULL;
+  TColaDePrioridadPersona nuevo = new rep_colaDePrioridadPersona;
+  nuevo->arb=new NodoHeap;
+  nuevo->arb->persona=NULL;
+  nuevo->arb->der = nuevo->arb->izq = NULL;
+  nuevo->prioridad = new nat[N];
+  nuevo->cant=0;
+  nuevo->max=N;
+  return nuevo;
 } 
 
 void invertirPrioridad(TColaDePrioridadPersona &cp) {
